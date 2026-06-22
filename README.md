@@ -1,6 +1,6 @@
-# Social Club — Bewerbungstool
+# Rotraum — Bewerbungstool
 
-Web-App für die Verwaltung von Bewerbungen zu Social Club Editions (Partys): öffentliches Bewerbungsformular, Admin-Bereich zum Prüfen/Annehmen/Ablehnen und eine private Community-Ansicht pro Edition für angenommene Mitglieder.
+Web-App für die Verwaltung von Bewerbungen zu Rotraum Editions (Partys): öffentliches Bewerbungsformular, Admin-Bereich zum Prüfen/Annehmen/Ablehnen und eine private Community-Ansicht pro Edition für angenommene Mitglieder.
 
 ## Funktionen
 
@@ -8,7 +8,7 @@ Web-App für die Verwaltung von Bewerbungen zu Social Club Editions (Partys): ö
 - **Bewerbungsformular** (öffentlich, auf Englisch gemäß Brand-Tonalität): Name, Email, Telefon, Geburtsdatum, Instagram-Handle, Motivationstext, Foto-Upload (JPG/PNG/WEBP, max. 8 MB).
 - **Admin-Bereich** (Login-geschützt, deutsch): Editions anlegen/bearbeiten, Bewerbungen ansehen, annehmen oder ablehnen.
 - **Community-Ansicht**: Sobald jemand angenommen wird, entsteht ein persönlicher Link (`/community/<token>`). Über diesen Link sehen angenommene Mitglieder Foto, Name und Instagram-Handle aller anderen angenommenen Mitglieder derselben Edition. Der Link muss manuell (z. B. per Mail oder DM) verschickt werden — es gibt keinen automatischen Mail-Versand.
-- **Design**: nutzt die offizielle Social Club Farbpalette (Social Red `#d60538`, Deep Red `#8f0526`, Warm White, Black, Greys) und die Schrift Familjen Grotesk gemäß Brandbook.
+- **Design**: nutzt die offizielle Rotraum Farbpalette (Social Red `#d60538`, Deep Red `#8f0526`, Warm White, Black, Greys) und die Schrift Familjen Grotesk gemäß Brandbook.
 
 ## Voraussetzungen
 

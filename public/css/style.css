@@ -1,4 +1,4 @@
-/* Social Club Bewerbungstool — Styling nach offizieller Brandbook-Palette
+/* Rotraum Bewerbungstool — Styling nach offizieller Brandbook-Palette
    Social Red #d60538, Deep Red #8f0526, Warm White #f4f3ef, Black #0c0a0a,
    Light/Mid/Dark Grey, Familjen Grotesk */
 
@@ -63,6 +63,16 @@ h3 { font-weight: 500; font-style: normal; font-size: 16px; }
   font-size: 19px;
   color: var(--warm-white) !important;
   text-decoration: none !important;
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+}
+.brand-logo img {
+  height: 34px;
+  width: auto;
+  display: block;
 }
 
 .hero { padding: 48px 0 28px; }

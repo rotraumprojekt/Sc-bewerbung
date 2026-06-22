@@ -1,7 +1,7 @@
 {
-  "name": "social-club-bewerbungstool",
+  "name": "rotraum-bewerbungstool",
   "version": "1.0.0",
-  "description": "Bewerbungstool fuer Social Club Editions - Bewerbungsformular, Admin-Review und private Community-Ansicht pro Edition",
+  "description": "Bewerbungstool fuer Rotraum Editions - Bewerbungsformular, Admin-Review und private Community-Ansicht pro Edition",
   "private": true,
   "main": "src/server.js",
   "scripts": {
