@@ -46,5 +46,5 @@ ensureAdminUser().then((result) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Social Club Bewerbungstool laeuft auf http://localhost:' + PORT);
+  console.log('Rotraum Bewerbungstool laeuft auf http://localhost:' + PORT);
 });
