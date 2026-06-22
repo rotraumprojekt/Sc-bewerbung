@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>Admin Login — Social Club</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <header class="site-header">
+    <a href="/admin" class="brand">Social Club Admin</a>
+  </header>
+  <main class="container narrow">
+    <h1>Login</h1>
+    <% if (error) { %><div class="notice error"><%= error %></div><% } %>
+    <form class="login-form" method="POST" action="/admin/login">
+      <label>Benutzername
+        <input type="text" name="username" required autofocus>
+      </label>
+      <label>Passwort
+        <input type="password" name="password" required>
+      </label>
+      <button type="submit" class="btn-primary">Anmelden</button>
+    </form>
+  </main>
+</body>
+</html>

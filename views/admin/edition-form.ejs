@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title><%= edition ? 'Edition bearbeiten' : 'Neue Edition' %> — Social Club Admin</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/admin-header') %>
+  <main class="container narrow">
+    <a class="back-link" href="/admin">← Zurück zum Dashboard</a>
+    <h1><%= edition ? 'Edition bearbeiten' : 'Neue Edition' %></h1>
+    <% if (error) { %><div class="notice error"><%= error %></div><% } %>
+    <form class="application-form" method="POST" action="<%= (edition && edition.id) ? ('/admin/editions/' + edition.id + '/edit') : '/admin/editions/new' %>">
+      <label>Name *
+        <input type="text" name="name" value="<%= (edition && edition.name) || '' %>" required>
+      </label>
+      <label>Datum
+        <input type="date" name="date" value="<%= (edition && edition.date) || '' %>">
+      </label>
+      <label>Location
+        <input type="text" name="location" value="<%= (edition && edition.location) || '' %>">
+      </label>
+      <label>Beschreibung
+        <textarea name="description" rows="4"><%= (edition && edition.description) || '' %></textarea>
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" name="published" <%= (edition && edition.published) ? 'checked' : '' %>>
+        Veröffentlicht (öffentlich sichtbar)
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" name="applicationsOpen" <%= (!edition || edition.applicationsOpen) ? 'checked' : '' %>>
+        Bewerbungen geöffnet
+      </label>
+      <button type="submit" class="btn-primary">Speichern</button>
+    </form>
+  </main>
+</body>
+</html>

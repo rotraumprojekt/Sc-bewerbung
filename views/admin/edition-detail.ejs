@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title><%= edition.name %> — Social Club Admin</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/admin-header') %>
+  <main class="container">
+    <a class="back-link" href="/admin">← Zurück zum Dashboard</a>
+    <div class="page-header">
+      <h1><%= edition.name %></h1>
+      <a href="/admin/editions/<%= edition.id %>/edit" class="btn-secondary">Bearbeiten</a>
+    </div>
+    <p class="muted">
+      <%= formatDate(edition.date) %><% if (edition.location) { %> · <%= edition.location %><% } %>
+      · <%= edition.published ? 'Veröffentlicht' : 'Entwurf' %>
+      · Bewerbungen <%= edition.applicationsOpen ? 'geöffnet' : 'geschlossen' %>
+      · Öffentlicher Link: <a href="/edition/<%= edition.slug %>" target="_blank">/edition/<%= edition.slug %></a>
+    </p>
+
+    <h2>Bewerbungen (<%= applications.length %>)</h2>
+    <% if (applications.length === 0) { %>
+      <p class="muted">Noch keine Bewerbungen eingegangen.</p>
+    <% } else { %>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Name</th>
+            <th>Alter</th>
+            <th>Eingegangen</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% applications.forEach(function(a) { %>
+            <tr>
+              <td><% if (a.photo) { %><img class="thumb" src="/uploads/<%= a.photo %>" alt=""><% } %></td>
+              <td><%= a.name %></td>
+              <td><%= calculateAge(a.birthdate) || '–' %></td>
+              <td><%= formatDate(a.createdAt) %></td>
+              <td><span class="badge badge-<%= a.status %>"><%= a.status %></span></td>
+              <td><a href="/admin/applications/<%= a.id %>" class="btn-link">Ansehen →</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>Dashboard — Social Club Admin</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/admin-header') %>
+  <main class="container">
+    <div class="page-header">
+      <h1>Editions</h1>
+      <a href="/admin/editions/new" class="btn-primary">+ Neue Edition</a>
+    </div>
+
+    <% if (editions.length === 0) { %>
+      <p class="muted">Noch keine Edition angelegt.</p>
+    <% } else { %>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Edition</th>
+            <th>Datum</th>
+            <th>Status</th>
+            <th>Bewerbungen</th>
+            <th>Angenommen</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% editions.forEach(function(e) { %>
+            <tr>
+              <td><%= e.name %></td>
+              <td><%= formatDate(e.date) %></td>
+              <td>
+                <%= e.published ? 'Veröffentlicht' : 'Entwurf' %>
+                <% if (!e.applicationsOpen) { %> · Bewerbung geschlossen<% } %>
+              </td>
+              <td><%= e.total %> (<%= e.pending %> offen)</td>
+              <td><%= e.accepted %></td>
+              <td><a href="/admin/editions/<%= e.id %>" class="btn-link">Öffnen →</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

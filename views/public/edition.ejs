@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= edition.name %> — Social Club</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <main class="container narrow">
+    <a class="back-link" href="/">← All Editions</a>
+    <h1><%= edition.name %></h1>
+    <p class="edition-meta"><%= formatDate(edition.date) %><% if (edition.location) { %> · <%= edition.location %><% } %></p>
+    <% if (edition.description) { %><p class="lead"><%= edition.description %></p><% } %>
+
+    <% if (typeof errors !== 'undefined' && errors.length) { %>
+      <% errors.forEach(function(err) { %>
+        <div class="notice error"><%= err %></div>
+      <% }) %>
+    <% } %>
+
+    <% if (!edition.applicationsOpen) { %>
+      <div class="notice">Applications for this Edition are closed.</div>
+    <% } else { %>
+      <form class="application-form" method="POST" action="/edition/<%= edition.slug %>/apply" enctype="multipart/form-data">
+        <label>Name *
+          <input type="text" name="name" value="<%= (formData && formData.name) || '' %>" required>
+        </label>
+        <label>Email *
+          <input type="email" name="email" value="<%= (formData && formData.email) || '' %>" required>
+        </label>
+        <label>Phone number
+          <input type="tel" name="phone" value="<%= (formData && formData.phone) || '' %>">
+        </label>
+        <label>Date of birth
+          <input type="date" name="birthdate" value="<%= (formData && formData.birthdate) || '' %>">
+        </label>
+        <label>Instagram handle
+          <input type="text" name="instagram" placeholder="@yourhandle" value="<%= (formData && formData.instagram) || '' %>">
+        </label>
+        <label>Why do you want to be there?
+          <textarea name="motivation" rows="4"><%= (formData && formData.motivation) || '' %></textarea>
+        </label>
+        <label>Photo * <span class="hint">JPG, PNG or WEBP, max 8 MB</span>
+          <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required>
+        </label>
+        <button type="submit" class="btn-primary">Send application</button>
+      </form>
+    <% } %>
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+</html>
