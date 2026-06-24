@@ -204,6 +204,50 @@ h3 { font-weight: 500; font-style: normal; font-size: 16px; }
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
 .page-header h1 { margin: 0; }
 
+.email-export {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 16px 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.email-export-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--light-grey);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.email-export-filter select {
+  background: var(--dark-grey);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--warm-white);
+  padding: 6px 10px;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: inherit;
+}
+.email-export textarea {
+  width: 100%;
+  background: var(--dark-grey);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--warm-white);
+  font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  resize: vertical;
+}
+.email-export-actions { display: flex; align-items: center; gap: 12px; }
+.copy-feedback { font-size: 13px; color: var(--success); }
+
 .admin-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
 .admin-table th, .admin-table td {
   text-align: left;
