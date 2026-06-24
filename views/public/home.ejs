@@ -18,6 +18,7 @@
       <div class="edition-grid">
         <% editions.forEach(function(edition) { %>
           <a class="edition-card" href="/edition/<%= edition.slug %>">
+            <% if (edition.photo) { %><img class="edition-card-img" src="/uploads/<%= edition.photo %>" alt=""><% } %>
             <h2><%= edition.name %></h2>
             <p class="edition-meta"><%= formatDate(edition.date) %><% if (edition.location) { %> · <%= edition.location %><% } %></p>
             <% if (edition.description) { %><p class="edition-desc"><%= edition.description %></p><% } %>

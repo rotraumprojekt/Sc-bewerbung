@@ -8,6 +8,7 @@
   <%- include('../partials/header') %>
   <main class="container narrow">
     <a class="back-link" href="/">← All Editions</a>
+    <% if (edition.photo) { %><img class="edition-hero-img" src="/uploads/<%= edition.photo %>" alt=""><% } %>
     <h1><%= edition.name %></h1>
     <p class="edition-meta"><%= formatDate(edition.date) %><% if (edition.location) { %> · <%= edition.location %><% } %></p>
     <% if (edition.description) { %><p class="lead"><%= edition.description %></p><% } %>

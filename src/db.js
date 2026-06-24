@@ -57,6 +57,7 @@ function createEdition(data) {
     date: data.date || '',
     location: data.location || '',
     description: data.description || '',
+    photo: data.photo || null,
     published: !!data.published,
     applicationsOpen: data.applicationsOpen !== undefined ? !!data.applicationsOpen : true,
     createdAt: new Date().toISOString()

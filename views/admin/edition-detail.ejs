@@ -9,7 +9,10 @@
   <main class="container">
     <a class="back-link" href="/admin">← Zurück zum Dashboard</a>
     <div class="page-header">
-      <h1><%= edition.name %></h1>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <% if (edition.photo) { %><img src="/uploads/<%= edition.photo %>" alt="" class="thumb" style="width:48px;height:48px;border-radius:8px;"><% } %>
+        <h1><%= edition.name %></h1>
+      </div>
       <a href="/admin/editions/<%= edition.id %>/edit" class="btn-secondary">Bearbeiten</a>
     </div>
     <p class="muted">

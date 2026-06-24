@@ -10,7 +10,7 @@
     <a class="back-link" href="/admin">← Zurück zum Dashboard</a>
     <h1><%= edition ? 'Edition bearbeiten' : 'Neue Edition' %></h1>
     <% if (error) { %><div class="notice error"><%= error %></div><% } %>
-    <form class="application-form" method="POST" action="<%= (edition && edition.id) ? ('/admin/editions/' + edition.id + '/edit') : '/admin/editions/new' %>">
+    <form class="application-form" method="POST" action="<%= (edition && edition.id) ? ('/admin/editions/' + edition.id + '/edit') : '/admin/editions/new' %>" enctype="multipart/form-data">
       <label>Name *
         <input type="text" name="name" value="<%= (edition && edition.name) || '' %>" required>
       </label>
@@ -22,6 +22,12 @@
       </label>
       <label>Beschreibung
         <textarea name="description" rows="4"><%= (edition && edition.description) || '' %></textarea>
+      </label>
+      <label>Event-Foto <span class="hint">JPG, PNG oder WEBP, max 8 MB, optional</span>
+        <% if (edition && edition.photo) { %>
+          <img src="/uploads/<%= edition.photo %>" alt="" class="edition-photo-preview">
+        <% } %>
+        <input type="file" name="eventPhoto" accept="image/jpeg,image/png,image/webp">
       </label>
       <label class="checkbox">
         <input type="checkbox" name="published" <%= (edition && edition.published) ? 'checked' : '' %>>
