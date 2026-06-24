@@ -23,6 +23,9 @@
       <label>Beschreibung
         <textarea name="description" rows="4"><%= (edition && edition.description) || '' %></textarea>
       </label>
+      <label>Maximale Tickets <span class="hint">optional, leer = unbegrenzt</span>
+        <input type="number" name="maxTickets" min="0" step="1" value="<%= (edition && edition.maxTickets) || '' %>">
+      </label>
       <label>Event-Foto <span class="hint">JPG, PNG oder WEBP, max 8 MB, optional</span>
         <% if (edition && edition.photo) { %>
           <img src="/uploads/<%= edition.photo %>" alt="" class="edition-photo-preview">

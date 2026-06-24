@@ -129,7 +129,7 @@ h3 { font-weight: 500; font-style: normal; font-size: 16px; }
   display: block;
 }
 
-.applicant-count {
+.edition-stats {
   color: var(--social-red);
   font-weight: 700;
   font-size: 13px;
