@@ -58,6 +58,8 @@ function createEdition(data) {
     location: data.location || '',
     description: data.description || '',
     photo: data.photo || null,
+    maxTickets: data.maxTickets ? Number(data.maxTickets) : null,
+    views: 0,
     published: !!data.published,
     applicationsOpen: data.applicationsOpen !== undefined ? !!data.applicationsOpen : true,
     createdAt: new Date().toISOString()
@@ -74,6 +76,15 @@ function updateEdition(id, data) {
   Object.assign(edition, data);
   writeDb(db);
   return edition;
+}
+
+function incrementEditionViews(id) {
+  const db = readDb();
+  const edition = db.editions.find(e => e.id === Number(id));
+  if (!edition) return 0;
+  edition.views = (edition.views || 0) + 1;
+  writeDb(db);
+  return edition.views;
 }
 
 // --- Applications ---
@@ -164,6 +175,7 @@ module.exports = {
   getEditionBySlug,
   createEdition,
   updateEdition,
+  incrementEditionViews,
   listApplicationsByEdition,
   listAcceptedByEdition,
   getApplicationById,

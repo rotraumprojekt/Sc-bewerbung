@@ -14,7 +14,8 @@ router.get('/edition/:slug', (req, res) => {
   if (!edition || !edition.published) {
     return res.status(404).render('public/not-found');
   }
-  res.render('public/edition', { edition, formatDate, errors: [], formData: {} });
+  const views = db.incrementEditionViews(edition.id);
+  res.render('public/edition', { edition, formatDate, errors: [], formData: {}, views });
 });
 
 router.post('/edition/:slug/apply', upload.single('photo'), (req, res) => {
@@ -26,7 +27,8 @@ router.post('/edition/:slug/apply', upload.single('photo'), (req, res) => {
   if (!edition.applicationsOpen) {
     return res.status(400).render('public/edition', {
       edition, formatDate, formData: req.body,
-      errors: ['Applications for this Edition are closed.']
+      errors: ['Applications for this Edition are closed.'],
+      views: edition.views || 0
     });
   }
 
@@ -43,7 +45,7 @@ router.post('/edition/:slug/apply', upload.single('photo'), (req, res) => {
 
   if (errors.length) {
     return res.status(400).render('public/edition', {
-      edition, formatDate, formData: req.body, errors
+      edition, formatDate, formData: req.body, errors, views: edition.views || 0
     });
   }
 
@@ -75,7 +77,8 @@ router.use((err, req, res, next) => {
   }
 
   res.status(400).render('public/edition', {
-    edition, formatDate, formData: req.body || {}, errors: [message]
+    edition, formatDate, formData: req.body || {}, errors: [message],
+    views: edition.views || 0
   });
 });
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../db');
 const { requireAdmin } = require('../middleware/auth');
+const { upload } = require('../utils/upload');
 const { slugify, generateToken, calculateAge, formatDate, instagramUrl } = require('../utils/helpers');
 
 router.get('/login', (req, res) => {
@@ -48,8 +49,8 @@ router.get('/editions/new', (req, res) => {
   res.render('admin/edition-form', { edition: null, error: null });
 });
 
-router.post('/editions/new', (req, res) => {
-  const { name, date, location, description, published, applicationsOpen } = req.body;
+router.post('/editions/new', upload.single('eventPhoto'), (req, res) => {
+  const { name, date, location, description, published, applicationsOpen, maxTickets } = req.body;
   if (!name || !name.trim()) {
     return res.status(400).render('admin/edition-form', { edition: req.body, error: 'Bitte einen Namen fuer die Edition angeben.' });
   }
@@ -64,6 +65,8 @@ router.post('/editions/new', (req, res) => {
     date: date || '',
     location: (location || '').trim(),
     description: (description || '').trim(),
+    photo: req.file ? req.file.filename : null,
+    maxTickets: maxTickets && maxTickets.trim() ? Number(maxTickets) : null,
     published: published === 'on',
     applicationsOpen: applicationsOpen === 'on'
   });
@@ -83,10 +86,10 @@ router.get('/editions/:id/edit', (req, res) => {
   res.render('admin/edition-form', { edition, error: null });
 });
 
-router.post('/editions/:id/edit', (req, res) => {
+router.post('/editions/:id/edit', upload.single('eventPhoto'), (req, res) => {
   const edition = db.getEditionById(req.params.id);
   if (!edition) return res.status(404).send('Edition nicht gefunden.');
-  const { name, date, location, description, published, applicationsOpen } = req.body;
+  const { name, date, location, description, published, applicationsOpen, maxTickets } = req.body;
   if (!name || !name.trim()) {
     return res.status(400).render('admin/edition-form', {
       edition: Object.assign({}, edition, req.body),
@@ -98,6 +101,8 @@ router.post('/editions/:id/edit', (req, res) => {
     date: date || '',
     location: (location || '').trim(),
     description: (description || '').trim(),
+    photo: req.file ? req.file.filename : edition.photo,
+    maxTickets: maxTickets && maxTickets.trim() ? Number(maxTickets) : null,
     published: published === 'on',
     applicationsOpen: applicationsOpen === 'on'
   });
@@ -136,6 +141,23 @@ router.post('/applications/:id/reset', (req, res) => {
   if (!application) return res.status(404).send('Bewerbung nicht gefunden.');
   db.setApplicationStatus(application.id, 'pending');
   res.redirect('/admin/applications/' + application.id);
+});
+
+// Multer / Upload error handler fuer Edition-Fotos (muss 4 Argumente haben,
+// damit Express sie als Error-Handler erkennt)
+router.use((err, req, res, next) => {
+  if (!err) return next();
+  let message = 'Beim Hochladen des Fotos ist ein Fehler aufgetreten. Bitte erneut versuchen.';
+  if (err.message === 'INVALID_FILE_TYPE') {
+    message = 'Bitte das Event-Foto als JPG, PNG oder WEBP hochladen.';
+  } else if (err.code === 'LIMIT_FILE_SIZE') {
+    message = 'Das Event-Foto ist zu gross. Maximal 8 MB.';
+  }
+  const existing = req.params.id ? db.getEditionById(req.params.id) : null;
+  res.status(400).render('admin/edition-form', {
+    edition: Object.assign({}, existing, req.body),
+    error: message
+  });
 });
 
 module.exports = router;
