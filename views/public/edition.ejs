@@ -11,6 +11,9 @@
     <% if (edition.photo) { %><img class="edition-hero-img" src="/uploads/<%= edition.photo %>" alt=""><% } %>
     <h1><%= edition.name %></h1>
     <p class="edition-meta"><%= formatDate(edition.date) %><% if (edition.location) { %> · <%= edition.location %><% } %></p>
+    <% if (typeof applicantCount !== 'undefined' && applicantCount > 0) { %>
+      <p class="applicant-count"><%= applicantCount %> <%= applicantCount === 1 ? 'Person hat sich' : 'Personen haben sich' %> bereits beworben</p>
+    <% } %>
     <% if (edition.description) { %><p class="lead"><%= edition.description %></p><% } %>
 
     <% if (typeof errors !== 'undefined' && errors.length) { %>

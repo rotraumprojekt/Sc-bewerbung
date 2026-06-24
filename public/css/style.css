@@ -129,6 +129,15 @@ h3 { font-weight: 500; font-style: normal; font-size: 16px; }
   display: block;
 }
 
+.applicant-count {
+  color: var(--social-red);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 14px;
+}
+
 .notice {
   background: var(--dark-grey);
   border: 1px solid var(--border);
