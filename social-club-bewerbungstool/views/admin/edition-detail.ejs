@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title><%= edition.name %> — Rotraum Admin</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/admin-header') %>
+  <main class="container">
+    <a class="back-link" href="/admin">← Zurück zum Dashboard</a>
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <% if (edition.photo) { %><img src="/uploads/<%= edition.photo %>" alt="" class="thumb" style="width:48px;height:48px;border-radius:8px;"><% } %>
+        <h1><%= edition.name %></h1>
+      </div>
+      <a href="/admin/editions/<%= edition.id %>/edit" class="btn-secondary">Bearbeiten</a>
+    </div>
+    <p class="muted">
+      <%= formatDate(edition.date) %><% if (edition.location) { %> · <%= edition.location %><% } %>
+      · <%= edition.published ? 'Veröffentlicht' : 'Entwurf' %>
+      · Bewerbungen <%= edition.applicationsOpen ? 'geöffnet' : 'geschlossen' %>
+      · Öffentlicher Link: <a href="/edition/<%= edition.slug %>" target="_blank">/edition/<%= edition.slug %></a>
+    </p>
+
+    <h2>Bewerbungen (<%= applications.length %>)</h2>
+    <% if (applications.length === 0) { %>
+      <p class="muted">Noch keine Bewerbungen eingegangen.</p>
+    <% } else { %>
+      <div class="email-export">
+        <label class="email-export-filter">
+          Status-Filter
+          <select id="emailStatusFilter">
+            <option value="all">Alle (<%= applications.length %>)</option>
+            <option value="pending">Offen (<%= applications.filter(function(a){ return a.status === 'pending'; }).length %>)</option>
+            <option value="accepted">Angenommen (<%= applications.filter(function(a){ return a.status === 'accepted'; }).length %>)</option>
+            <option value="rejected">Abgelehnt (<%= applications.filter(function(a){ return a.status === 'rejected'; }).length %>)</option>
+          </select>
+        </label>
+        <textarea id="emailListOutput" rows="6" readonly></textarea>
+        <div class="email-export-actions">
+          <button type="button" id="copyEmailsBtn" class="btn-secondary">E-Mails kopieren</button>
+          <span id="copyFeedback" class="copy-feedback"></span>
+        </div>
+      </div>
+
+      <script id="application-email-data" type="application/json"><%- JSON.stringify(applications.map(function(a){ return { email: a.email, status: a.status }; })).replace(/<\/script/gi, '<\\/script') %></script>
+      <script>
+        (function () {
+          var data = JSON.parse(document.getElementById('application-email-data').textContent);
+          var select = document.getElementById('emailStatusFilter');
+          var output = document.getElementById('emailListOutput');
+          var copyBtn = document.getElementById('copyEmailsBtn');
+          var feedback = document.getElementById('copyFeedback');
+
+          function render() {
+            var filter = select.value;
+            var emails = data
+              .filter(function (a) { return filter === 'all' || a.status === filter; })
+              .map(function (a) { return a.email; });
+            output.value = emails.join('\n');
+          }
+
+          select.addEventListener('change', render);
+          copyBtn.addEventListener('click', function () {
+            output.select();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(output.value).then(function () {
+                feedback.textContent = 'Kopiert!';
+                setTimeout(function () { feedback.textContent = ''; }, 2000);
+              }).catch(function () {
+                feedback.textContent = 'Bitte manuell kopieren (Strg+C).';
+              });
+            } else {
+              document.execCommand('copy');
+              feedback.textContent = 'Kopiert!';
+              setTimeout(function () { feedback.textContent = ''; }, 2000);
+            }
+          });
+
+          render();
+        })();
+      </script>
+
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Name</th>
+            <th>Alter</th>
+            <th>Eingegangen</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% applications.forEach(function(a) { %>
+            <tr>
+              <td><% if (a.photo) { %><img class="thumb" src="/uploads/<%= a.photo %>" alt=""><% } %></td>
+              <td><%= a.name %></td>
+              <td><%= calculateAge(a.birthdate) || '–' %></td>
+              <td><%= formatDate(a.createdAt) %></td>
+              <td><span class="badge badge-<%= a.status %>"><%= a.status %></span></td>
+              <td><a href="/admin/applications/<%= a.id %>" class="btn-link">Ansehen →</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

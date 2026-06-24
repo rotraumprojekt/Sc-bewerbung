@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= edition.name %> Community — Rotraum</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <main class="container">
+    <h1><%= edition.name %> — Community</h1>
+    <p class="lead">Welcome, <%= viewer.name %>. Here are the other guests accepted into this Edition.</p>
+
+    <% if (members.length === 0) { %>
+      <p class="muted">No other members have been accepted yet — check back soon.</p>
+    <% } else { %>
+      <div class="community-grid">
+        <% members.forEach(function(m) { %>
+          <div class="community-card">
+            <% if (m.photo) { %><img src="/uploads/<%= m.photo %>" alt="<%= m.name %>"><% } %>
+            <h3><%= m.name %></h3>
+            <% if (m.instagram) { %><a href="<%= instagramUrl(m.instagram) %>" target="_blank" rel="noopener">Instagram →</a><% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+</html>

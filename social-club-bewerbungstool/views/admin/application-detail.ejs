@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title><%= application.name %> — Rotraum Admin</title>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/admin-header') %>
+  <main class="container narrow">
+    <a class="back-link" href="/admin/editions/<%= edition.id %>">← Zurück zur Edition</a>
+    <div class="application-detail">
+      <% if (application.photo) { %><img class="photo-large" src="/uploads/<%= application.photo %>" alt=""><% } %>
+      <h1><%= application.name %></h1>
+      <span class="badge badge-<%= application.status %>"><%= application.status %></span>
+
+      <dl>
+        <dt>Edition</dt><dd><%= edition.name %></dd>
+        <dt>Email</dt><dd><a href="mailto:<%= application.email %>"><%= application.email %></a></dd>
+        <% if (application.phone) { %><dt>Telefon</dt><dd><%= application.phone %></dd><% } %>
+        <% if (application.birthdate) { %><dt>Geburtsdatum</dt><dd><%= formatDate(application.birthdate) %> (<%= calculateAge(application.birthdate) %> Jahre)</dd><% } %>
+        <% if (application.instagram) { %><dt>Instagram</dt><dd><a href="<%= instagramUrl(application.instagram) %>" target="_blank"><%= application.instagram %></a></dd><% } %>
+        <dt>Eingegangen</dt><dd><%= formatDate(application.createdAt) %></dd>
+      </dl>
+
+      <% if (application.motivation) { %>
+        <h3>Motivation</h3>
+        <p class="motivation"><%= application.motivation %></p>
+      <% } %>
+
+      <% if (communityUrl) { %>
+        <div class="notice success">
+          Community-Link: <a href="<%= communityUrl %>" target="_blank"><%= communityUrl %></a>
+          <br><span class="muted">Diesen Link manuell an die Person senden (z. B. per E-Mail oder DM).</span>
+        </div>
+      <% } %>
+
+      <div class="actions">
+        <% if (application.status !== 'accepted') { %>
+          <form method="POST" action="/admin/applications/<%= application.id %>/accept">
+            <button type="submit" class="btn-primary">Annehmen</button>
+          </form>
+        <% } %>
+        <% if (application.status !== 'rejected') { %>
+          <form method="POST" action="/admin/applications/<%= application.id %>/reject">
+            <button type="submit" class="btn-danger">Ablehnen</button>
+          </form>
+        <% } %>
+        <% if (application.status !== 'pending') { %>
+          <form method="POST" action="/admin/applications/<%= application.id %>/reset">
+            <button type="submit" class="btn-secondary">Zurück auf Offen</button>
+          </form>
+        <% } %>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
