@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <title>Rotraum — Editions</title>
+  <title>Rotraum — Editionen</title>
   <%- include('../partials/head') %>
 </head>
 <body>
@@ -13,7 +13,7 @@
     </section>
 
     <% if (editions.length === 0) { %>
-      <p class="muted">No Edition is currently open for applications. Check back soon.</p>
+      <p class="muted">Aktuell ist keine Edition für Bewerbungen offen. Schau bald wieder vorbei.</p>
     <% } else { %>
       <div class="edition-grid">
         <% editions.forEach(function(edition) { %>
@@ -22,7 +22,7 @@
             <h2><%= edition.name %></h2>
             <p class="edition-meta"><%= formatDate(edition.date) %><% if (edition.location) { %> · <%= edition.location %><% } %></p>
             <% if (edition.description) { %><p class="edition-desc"><%= edition.description %></p><% } %>
-            <span class="cta"><%= edition.applicationsOpen ? 'Apply now →' : 'Applications closed' %></span>
+            <span class="cta"><%= edition.applicationsOpen ? 'Jetzt bewerben →' : 'Bewerbung geschlossen' %></span>
           </a>
         <% }) %>
       </div>

@@ -27,7 +27,7 @@ router.post('/edition/:slug/apply', upload.single('photo'), (req, res) => {
   if (!edition.applicationsOpen) {
     return res.status(400).render('public/edition', {
       edition, formatDate, formData: req.body,
-      errors: ['Applications for this Edition are closed.'],
+      errors: ['Bewerbungen für diese Edition sind geschlossen.'],
       views: edition.views || 0
     });
   }
@@ -35,12 +35,12 @@ router.post('/edition/:slug/apply', upload.single('photo'), (req, res) => {
   const { name, email, phone, birthdate, instagram, motivation } = req.body;
   const errors = [];
 
-  if (!name || !name.trim()) errors.push('Please enter your name.');
-  if (!email || !email.trim()) errors.push('Please enter your email address.');
-  if (!req.file) errors.push('Please upload a photo of yourself.');
+  if (!name || !name.trim()) errors.push('Bitte gib deinen Namen ein.');
+  if (!email || !email.trim()) errors.push('Bitte gib deine E-Mail-Adresse ein.');
+  if (!req.file) errors.push('Bitte lade ein Foto von dir hoch.');
 
   if (!errors.length && db.findExistingApplication(edition.id, email)) {
-    errors.push('An application with this email has already been submitted for this Edition.');
+    errors.push('Für diese Edition wurde mit dieser E-Mail-Adresse bereits eine Bewerbung eingereicht.');
   }
 
   if (errors.length) {
@@ -69,11 +69,11 @@ router.use((err, req, res, next) => {
   const edition = db.getEditionBySlug(req.params.slug);
   if (!edition) return res.status(404).render('public/not-found');
 
-  let message = 'Something went wrong while submitting your application. Please try again.';
+  let message = 'Beim Absenden deiner Bewerbung ist ein Fehler aufgetreten. Bitte versuche es erneut.';
   if (err.message === 'INVALID_FILE_TYPE') {
-    message = 'Please upload your photo as JPG, PNG or WEBP.';
+    message = 'Bitte lade dein Foto als JPG, PNG oder WEBP hoch.';
   } else if (err.code === 'LIMIT_FILE_SIZE') {
-    message = 'Your photo is too large. Maximum file size is 8 MB.';
+    message = 'Dein Foto ist zu groß. Maximale Dateigröße: 8 MB.';
   }
 
   res.status(400).render('public/edition', {
